@@ -15,28 +15,28 @@ class AABB {
     // All child classes of AABB must call the setSize() function
     // in their constructors.
   }
-
+  
   void update() {
     calcAABB();
   }
-
+  
   void draw() {
   }
-
+  
   void setSize(float w, float h) {
     this.w = w;
     this.h = h;
     halfW = w/2;
     halfH = h/2;
   }
-
+  
   void calcAABB() {
     edgeL = x - halfW;
     edgeR = x + halfW;
     edgeT = y - halfH;
     edgeB = y + halfH;
   }
-  
+
   void calcAngleToMouse() {
     float dx = camera.x + mouseX - x;
     float dy = camera.y + mouseY - y;

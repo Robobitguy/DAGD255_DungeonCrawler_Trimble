@@ -1,9 +1,9 @@
 class Camera {
-
   float x, y;
   float tx, ty;
   float dx, dy;
   float distance;
+  boolean isLockOn = true;
   Player target;
   Camera(Player p) {
     target = p;
@@ -13,12 +13,21 @@ class Camera {
     y = ty;
   }
   void update() {
-    //GET PLAYER POSITION + OFFSET
-    tx = target.x - width/2;
-    ty = target.y - height /2;
-    //CALC DISTANCE BETWEEN PLAYER AND OFFSET
-    dx = tx - x;
-    dy = ty - y;
+    if (!isLockOn) {
+      tx = target.x - (width/2) / zoomAmount;
+      ty = target.y - (height/2) / zoomAmount;
+      dx = tx - x;
+      dy = ty - y;
+      distance = sqrt(dx*dx + dy*dy);
+    }
+
+    if (isLockOn) {
+      tx = player.midPoint.x + target.x - (width/2) / zoomAmount;
+      ty = player.midPoint.y + target.y - (height/2) / zoomAmount;
+      dx = tx - x;
+      dy = ty - y;
+      distance = sqrt(dx*dx + dy*dy);
+    }
     //MOVE CAMERA + EASING
     x += dx * 0.1;
     y += dy * 0.1;

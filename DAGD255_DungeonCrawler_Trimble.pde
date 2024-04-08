@@ -1,69 +1,105 @@
 float dt = 0;
 float prevTime = 0;
-ArrayList<Wall> walls = new ArrayList();
+float zoomAmount = 1;
+boolean leftPressed, pLeftPressed;
+boolean rightPressed, pRightPressed;
+ArrayList<Platform> platforms = new ArrayList();
+ArrayList<Bullet> bullets = new ArrayList();
+ArrayList<Room> rooms = new ArrayList();
+ArrayList<Door> doors = new ArrayList();
 Player player;
 Camera camera;
 
-void setup(){
-  size(1280,720);
-  player = new Player(width/2,height/2);
+void setup() {
+  size(1280, 720);
+  player = new Player(width/2, height/2);
   camera = new Camera(player);
-  for (int i = 0; i < 10; i++){
-    Wall w = new Wall(random(width),random(height));
-    walls.add(w);
-  }
+  Room r = new Room(-camera.x,-camera.y);
+  rooms.add(r);
   /*for (int i = 0; i < 10; i++){
-    Enemy e = new Enemy(random(width),random(height));
-    enemies.add(e);
-  }*/
+   Enemy e = new Enemy(random(width),random(height));
+   enemies.add(e);
+   }*/
 }
-void draw(){
+void draw() {
   calcDeltaTime();
   background(128);
-  //PUSHMATRIX
+  scale(zoomAmount);
+  //PUSHMATRIX -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   pushMatrix();
-  translate(-camera.x,-camera.y);
-  //SPAWN OBJECTS
+  translate(-camera.x, -camera.y);
   //UPDATE OBJECTS
   camera.update();
   /*for(int i = 0; i < enemies.size(); i++){
-    Enemy e = enemies.get(i);
-    e.update();
-  }*/
-  for(int i = 0; i < walls.size(); i++){
-    Wall w = walls.get(i);
-    w.update();
-    if(w.checkCollision(player)){
-      player.applyFix(player.findOverlapFix(w));
+   Enemy e = enemies.get(i);
+   e.update();
+   }*/
+  for (int i = 0; i < platforms.size(); i++) {
+    Platform p = platforms.get(i);
+    p.update();
+    if (p.checkCollision(player)) {
+      player.applyFix(player.findOverlapFix(p));
     }
+  }
+  for (int i = 0; i < bullets.size(); i++) {
+    Bullet b = bullets.get(i);
+    b.update();
+    if (b.isDead) bullets.remove(b);
+  }
+  for (int i = 0; i < rooms.size(); i++) {
+    Room r = rooms.get(i);
+    r.update();
+  }
+  for (int i = 0; i < doors.size(); i++) {
+    Door d = doors.get(i);
+    d.update();
   }
   player.update();
   //NEXT FRAME PREP
   Keyboard.update();
+  pLeftPressed = leftPressed;
+  pRightPressed = rightPressed;
   //DRAW OBJECTS
   /*for(int i = 0; i < enemies.size(); i++){
-    Enemy e = enemies.get(i);
-    e.draw();
-  }*/
-  for(int i = 0; i < walls.size(); i++){
-    Wall w = walls.get(i);
-    w.draw();
+   Enemy e = enemies.get(i);
+   e.draw();
+   }*/
+  for (int i = 0; i < platforms.size(); i++) {
+    Platform p = platforms.get(i);
+    p.draw();
+  }
+  for (int i = 0; i < bullets.size(); i++) {
+    Bullet b = bullets.get(i);
+    b.draw();
+  }
+  for (int i = 0; i < doors.size(); i++) {
+    Door d = doors.get(i);
+    d.draw();
   }
   player.draw();
-  //POPMATRIX
+  //POPMATRIX--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   popMatrix();
   //DRAW HUD
 }
 
-void calcDeltaTime(){
+void calcDeltaTime() {
   float currTime = millis();
   dt = (currTime - prevTime) / 1000.0;
   prevTime = currTime;
 }
 
-void keyPressed(){
+void keyPressed() {
   Keyboard.handleKeyDown(keyCode);
 }
-void keyReleased(){
+void keyReleased() {
   Keyboard.handleKeyUp(keyCode);
+}
+void mousePressed() {
+  if (mouseButton == LEFT) leftPressed = true;
+  if (mouseButton == RIGHT) rightPressed = true;
+}
+
+void mouseReleased() {
+  if (mouseButton == LEFT) leftPressed = false;
+  if (mouseButton == RIGHT) rightPressed = false;
 }
