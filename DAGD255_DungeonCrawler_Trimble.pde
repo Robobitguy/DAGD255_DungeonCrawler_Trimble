@@ -1,6 +1,7 @@
 float dt = 0;
 float prevTime = 0;
 float zoomAmount = 1;
+float shotCD;
 boolean leftPressed, pLeftPressed;
 boolean rightPressed, pRightPressed;
 ArrayList<Platform> platforms = new ArrayList();
@@ -24,7 +25,7 @@ void setup() {
 void draw() {
   calcDeltaTime();
   background(128);
-  scale(zoomAmount);
+  scale(zoomAmount);  
   //PUSHMATRIX -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   pushMatrix();
   translate(-camera.x, -camera.y);
@@ -59,6 +60,7 @@ void draw() {
   Keyboard.update();
   pLeftPressed = leftPressed;
   pRightPressed = rightPressed;
+  shotCD -= dt;
   //DRAW OBJECTS
   /*for(int i = 0; i < enemies.size(); i++){
    Enemy e = enemies.get(i);
@@ -80,6 +82,7 @@ void draw() {
   //POPMATRIX--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   popMatrix();
   //DRAW HUD
+  println(doors.size());
 }
 
 void calcDeltaTime() {

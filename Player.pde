@@ -12,9 +12,10 @@ class Player extends AABB {
     if (Keyboard.isDown(Keyboard.LEFT)) {
       playerAngle -= 2 * dt;
     }
-    if (leftPressed && !pLeftPressed) {
+    if (leftPressed && shotCD <= 0) {
       Bullet b = new Bullet(x, y, angle);
       bullets.add(b);
+      shotCD = 2;
     }
     if (Keyboard.isDown(Keyboard.RIGHT)) {
       playerAngle += 2 * dt;
