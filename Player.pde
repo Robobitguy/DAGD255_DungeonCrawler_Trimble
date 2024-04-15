@@ -1,6 +1,7 @@
 class Player extends AABB {
   int level = 1;
   float playerAngle = 0;
+  float playerHealth = 100;
   PVector midPoint = new PVector();
   Player(float xPos, float yPos) {
     x = xPos;
@@ -35,7 +36,7 @@ class Player extends AABB {
     super.update();
   }
   void draw() {
-    fill(#FF2483);
+    fill(255,0,0);
     pushMatrix();
     translate(x, y);
     rotate(playerAngle);

@@ -17,10 +17,7 @@ void setup() {
   camera = new Camera(player);
   Room r = new Room(-camera.x,-camera.y);
   rooms.add(r);
-  /*for (int i = 0; i < 10; i++){
-   Enemy e = new Enemy(random(width),random(height));
-   enemies.add(e);
-   }*/
+
 }
 void draw() {
   calcDeltaTime();
@@ -82,7 +79,6 @@ void draw() {
   //POPMATRIX--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
   popMatrix();
   //DRAW HUD
-  println(doors.size());
 }
 
 void calcDeltaTime() {

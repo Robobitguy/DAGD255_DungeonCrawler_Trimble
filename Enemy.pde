@@ -1,8 +1,9 @@
 class Enemy extends AABB {
+  float enemySize;
   Enemy(float x, float y) {
     this.x = x;
     this.y = y;
-    setSize (150, 150);
+    setSize (enemySize,enemySize);
   }
   void update() {
     super.update();
