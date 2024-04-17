@@ -22,8 +22,8 @@ class Camera {
     }
 
     if (isLockOn) {
-      tx = player.midPoint.x + target.x - (width/2) / zoomAmount;
-      ty = player.midPoint.y + target.y - (height/2) / zoomAmount;
+      tx = scenePlay.player.midPoint.x + target.x - (width/2) / zoomAmount;
+      ty = scenePlay.player.midPoint.y + target.y - (height/2) / zoomAmount;
       dx = tx - x;
       dy = ty - y;
       distance = sqrt(dx*dx + dy*dy);

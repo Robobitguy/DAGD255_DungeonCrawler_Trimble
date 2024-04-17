@@ -11,51 +11,53 @@ class Room {
   Room(float xPos, float yPos) {
     roomType = ceil(roomRandomize);
     x = xPos;
-    y = yPos;
-    //LEFT WALLS
-    Platform p1 = new Platform(x, y, wallThickness, platformHeight);
-    platforms.add(p1);
-    //RIGHT WALLS
-    Platform p2 = new Platform(p1.x + w, p1.y, wallThickness, platformHeight);
-    platforms.add(p2);
-    //TOP DOOR
-    Door d1 = new Door(x + w/2, y - h/4 + 50, w, 50);
-    d11 = d1;
-    doors.add(d1);
-    //BOTTOM DOOR
-    Door d2 = new Door(x + w/2, y + h/4 - 50, w, 50);
-    d22 = d2;
-    doors.add(d2);
-    //OBSTACLES
-    if (roomType == 1) {
-    } else if (roomType ==2) {
-    } else if (roomType ==3) {
+    y = yPos;    
+    if (scenePlay != null) {
+      //LEFT WALLS
+      Platform p1 = new Platform(x, y, wallThickness, platformHeight);
+      scenePlay.platforms.add(p1);
+      //RIGHT WALLS
+      Platform p2 = new Platform(p1.x + w, p1.y, wallThickness, platformHeight);
+      scenePlay.platforms.add(p2);
+      //TOP DOOR
+      Door d1 = new Door(x + w/2, y - h/4 + 50, w, 50);
+      d11 = d1;
+      scenePlay.doors.add(d1);
+      //BOTTOM DOOR
+      Door d2 = new Door(x + w/2, y + h/4 - 50, w, 50);
+      d22 = d2;
+      scenePlay.doors.add(d2);
+      //OBSTACLES
+      if (roomType == 1) {
+      } else if (roomType ==2) {
+      } else if (roomType ==3) {
+      }
     }
   }
   void update() {
-    
+
     //if(d11 != null) println(d11);
-    
-    if (player != null) {
+
+    if (scenePlay.player != null) {
       if (d11 != null) {
-        if (player.checkCollision(d11)) {
+        if (scenePlay.player.checkCollision(d11)) {
           if (!topDoor) {
             topDoor = true;
             roomRandomize = random(0, 3);
             Room r = new Room(x, y - h + platformHeight);
-            rooms.add(r);
+            scenePlay.rooms.add(r);
             r.bottomDoor = true;
             println("colliding");
           }
         }
       }
       if (d22 != null) {
-        if (player.checkCollision(d22)) {
+        if (scenePlay.player.checkCollision(d22)) {
           if (!bottomDoor) {
             bottomDoor = true;
             roomRandomize = random(0, 3);
             Room r = new Room(x, y + h - platformHeight);
-            rooms.add(r);
+            scenePlay.rooms.add(r);
             r.topDoor = true;
             println("colliding");
           }

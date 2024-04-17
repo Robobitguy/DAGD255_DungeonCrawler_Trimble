@@ -15,11 +15,12 @@ class Player extends AABB {
     }
     if (leftPressed && shotCD <= 0) {
       Bullet b = new Bullet(x, y, angle);
-      bullets.add(b);
+      scenePlay.bullets.add(b);
       shotCD = 2;
     }
     if (Keyboard.isDown(Keyboard.RIGHT)) {
       playerAngle += 2 * dt;
+      println("e");
     }
     if (Keyboard.isDown(Keyboard.UP)) {
       velocity.x = 300;
