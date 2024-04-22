@@ -11,7 +11,7 @@ class Door extends AABB {
     super.update();
   }
   void draw() {
-    //fill(255);
-    //rect(x - halfW, y - halfH, w, h);
+    fill(255);
+    rect(x - halfW, y - halfH, w, h);
   }
 }

@@ -16,21 +16,21 @@ void draw() {
   calcDeltaTime();
   switch(scene) {
   case 0: //TITLE
-    sceneTitle = new SceneTitle();
+    if (sceneTitle == null) sceneTitle = new SceneTitle();
     scenePlay = null;
     sceneGameOver = null;
     sceneTitle.update();
     if (sceneTitle != null)sceneTitle.draw();
     break;
   case 1: //PLAY
-    scenePlay = new ScenePlay();
+    if (scenePlay == null) scenePlay = new ScenePlay();
     sceneTitle = null;
     sceneGameOver = null;
     scenePlay.update();
     if (scenePlay != null)scenePlay.draw();
     break;
   case 2: //GAME OVER
-    sceneGameOver = new SceneGameOver();
+    if (scenePlay == null) sceneGameOver = new SceneGameOver();
     sceneTitle = null;
     scenePlay = null;
     sceneGameOver.update();
@@ -44,7 +44,7 @@ void calcDeltaTime() {
   dt = (currTime - prevTime) / 1000.0;
   prevTime = currTime;
 }
-//CONTROLL INPUT
+//CONTROL INPUT
 void keyPressed() {
   Keyboard.handleKeyDown(keyCode);
 }

@@ -20,7 +20,6 @@ class Player extends AABB {
     }
     if (Keyboard.isDown(Keyboard.RIGHT)) {
       playerAngle += 2 * dt;
-      println("e");
     }
     if (Keyboard.isDown(Keyboard.UP)) {
       velocity.x = 300;

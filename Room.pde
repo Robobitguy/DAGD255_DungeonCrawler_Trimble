@@ -11,8 +11,7 @@ class Room {
   Room(float xPos, float yPos) {
     roomType = ceil(roomRandomize);
     x = xPos;
-    y = yPos;    
-    if (scenePlay != null) {
+    y = yPos;
       //LEFT WALLS
       Platform p1 = new Platform(x, y, wallThickness, platformHeight);
       scenePlay.platforms.add(p1);
@@ -28,11 +27,18 @@ class Room {
       d22 = d2;
       scenePlay.doors.add(d2);
       //OBSTACLES
-      if (roomType == 1) {
-      } else if (roomType ==2) {
-      } else if (roomType ==3) {
+      switch(roomType){
+        case 1:
+        
+        break;
+        case 2:
+        
+        break;
+        case 3:
+        
+        break;
       }
-    }
+    
   }
   void update() {
 
@@ -47,7 +53,6 @@ class Room {
             Room r = new Room(x, y - h + platformHeight);
             scenePlay.rooms.add(r);
             r.bottomDoor = true;
-            println("colliding");
           }
         }
       }
@@ -59,7 +64,6 @@ class Room {
             Room r = new Room(x, y + h - platformHeight);
             scenePlay.rooms.add(r);
             r.topDoor = true;
-            println("colliding");
           }
         }
       }

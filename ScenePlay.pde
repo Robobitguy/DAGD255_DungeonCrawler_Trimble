@@ -8,17 +8,21 @@ class ScenePlay {
   ScenePlay() {
     player = new Player(width/2, height/2);
     camera = new Camera(player);
-    Room r = new Room(-camera.x, -camera.y);
-    rooms.add(r);
+    if (scenePlay != null) {
+      Room r = new Room(-camera.x, -camera.y);
+      rooms.add(r);
+    }
   }
   void update() {
     background(128);
     scale(zoomAmount);
     //PUSHMATRIX -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     pushMatrix();
-    translate(-camera.x, -camera.y);
+
     //UPDATE OBJECTS
     camera.update();
+
+
     /*for(int i = 0; i < enemies.size(); i++){
      Enemy e = enemies.get(i);
      e.update();
@@ -53,6 +57,7 @@ class ScenePlay {
   }
   void draw() {
     pushMatrix();
+    translate(-camera.x, -camera.y);
     //DRAW OBJECTS
     /*for(int i = 0; i < enemies.size(); i++){
      Enemy e = enemies.get(i);
