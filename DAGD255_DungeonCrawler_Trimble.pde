@@ -1,7 +1,8 @@
+//this program plays a dungeon crawler game
+//copyright Aiden Trimble 2024
 float dt = 0;
 float prevTime = 0;
 float zoomAmount = 1;
-float shotCD;
 boolean leftPressed, pLeftPressed;
 boolean rightPressed, pRightPressed;
 int scene = 0;

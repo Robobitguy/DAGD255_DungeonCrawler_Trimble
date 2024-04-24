@@ -1,6 +1,7 @@
 class Bullet extends AABB {
   float lifeTime = 4;
-  int numCollisions = 0;
+  int hitNumber = 0;
+  int pierce =1;
 
   Bullet(float x, float y, float angle) {
     this.x = x;
@@ -15,6 +16,7 @@ class Bullet extends AABB {
     x += velocity.x * cos(angle) * dt;
     y += velocity.y * sin(angle) * dt;
     if (lifeTime <= 0) isDead = true;
+    if (hitNumber >= pierce) isDead = true;
     super.update();
   }
   void draw() {

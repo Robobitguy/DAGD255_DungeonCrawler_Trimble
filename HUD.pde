@@ -1,6 +1,6 @@
 class HUD {
   String menuName;
-  HUD(String name){
+  HUD(){
     
   }
   void update(){
