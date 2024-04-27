@@ -6,23 +6,26 @@ class ScenePlay {
   ArrayList<Enemy> enemies = new ArrayList();
   Player player;
   Camera camera;
+  HUD hud;
   float enemyCD = 1;
   float shotCD = 1;
-  float iFrames = 0;
+  float IFrames = 0;
+  int Level = 1;
   ScenePlay() {
     player = new Player(width/2, height/2);
     camera = new Camera(player);
+    hud = new HUD();
     if (scenePlay != null) {
       Room r = new Room(-camera.x, -camera.y);
       rooms.add(r);
     }
   }
   void update() {
-    background(128);
     scale(zoomAmount);
     //SPAWN OBJECTS
     enemyCD -= dt;
     shotCD -= dt;
+    IFrames -= dt;
     if (enemyCD <= 0) {
       Enemy e = new Enemy();
       enemies.add(e);
@@ -40,12 +43,12 @@ class ScenePlay {
     for (int i = 0; i < enemies.size(); i++) {
       Enemy e = enemies.get(i);
       e.update();
-      if(e.checkCollision(player)){
+      if(e.checkCollision(player) && IFrames <= 0){
         player.takeDamage();
       }
       if (e.isDead) {
         enemies.remove(e);
-        player.experience += 1;
+        player.currentXP += 1;
       }
     }
     //BULLET UPDATE
@@ -68,6 +71,7 @@ class ScenePlay {
       Door d = doors.get(i);
       d.update();
     }
+    hud.update();
     player.update();
     //NEXT FRAME PREP
     Keyboard.update();
@@ -75,11 +79,12 @@ class ScenePlay {
     pRightPressed = rightPressed;
     shotCD -= dt;
     //GAME OVER
-    if (player.currentHealth <= 0){
+    if (player.isDead == true){
       scene = 2;
     }
   }
   void draw() {
+    background(#713A1A);
     //PUSHMATRIX
     pushMatrix();
     translate(-camera.x, -camera.y);
@@ -104,5 +109,6 @@ class ScenePlay {
     //POPMATRIX--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     popMatrix();
     //DRAW HUD
+    hud.draw();
   }
 }

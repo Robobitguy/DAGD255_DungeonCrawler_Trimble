@@ -31,7 +31,7 @@ void draw() {
     if (scenePlay != null)scenePlay.draw();
     break;
   case 2: //GAME OVER
-    if (scenePlay == null) sceneGameOver = new SceneGameOver();
+    if (sceneGameOver == null) sceneGameOver = new SceneGameOver();
     sceneTitle = null;
     scenePlay = null;
     sceneGameOver.update();

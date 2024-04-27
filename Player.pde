@@ -1,12 +1,12 @@
 class Player extends AABB {
-  float playerDamage = 5;
+  float playerDamage = 3;
   float playerAngle = 0;
   float maxHealth = 100;
+  int pierce =1;
   float currentHealth = maxHealth;
+  float currentXP = 0;
+  float neededXP = 5;
   PVector midPoint = new PVector();
-  int Level = 1;
-  float experience = 0;
-  float levelUpNumber = 5;
   Player(float xPos, float yPos) {
     x = xPos;
     y = yPos;
@@ -37,6 +37,12 @@ class Player extends AABB {
     y += velocity.y * sin(playerAngle) * dt;
     velocity.x *= 0.95;
     velocity.y *= 0.95;
+    if (currentXP >= neededXP){
+      levelUp();
+    }
+    if (currentHealth <= 0){
+      isDead = true;
+    }
     super.update();
   }
   void draw() {
@@ -53,11 +59,26 @@ class Player extends AABB {
     popMatrix();
   }
   void takeDamage(){
-    
+    currentHealth -= floor(scenePlay.Level * 1.5);
+    scenePlay.IFrames = 0.5;
   }
   void levelUp(){
+    scenePlay.Level++;
     float randomBuff = random(0,3);
     int buffType = ceil(randomBuff);
-    
+    switch(buffType){
+      case 1: //HEALTH UP
+      maxHealth += 10;
+      break;
+      case 2: //DAMAGE UP
+      playerDamage += 1;
+      break;
+      case 3: //PIERCE UP
+      pierce++;
+      break;
+    }
+    currentHealth = maxHealth;
+    currentXP = 0;
+    neededXP += 5;
   }
 }

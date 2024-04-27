@@ -2,7 +2,7 @@ class Enemy extends AABB {
   float angleToPlayer;
   float enemyHealth = 10;
   Enemy() {
-    enemyHealth += scenePlay.player.Level * 0.5;
+    enemyHealth += scenePlay.Level;
     randomizePosition();
     velocity.x = 200;
     velocity.y = 200;
