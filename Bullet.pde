@@ -8,7 +8,7 @@ class Bullet extends AABB {
     this.x = x;
     this.y = y;
     this.angle = angle;
-    bulletSize += scenePlay.player.playerDamage;
+    bulletSize +=(scenePlay.player.playerDamage * 2);
     velocity = new PVector(800, 800);
     setSize(10, 10);
   }
@@ -22,7 +22,7 @@ class Bullet extends AABB {
     super.update();
   }
   void draw() {
-    fill(255, 0, 0);
+    fill(255, 255, 0);
     ellipse(x-halfW, y-halfH, w, h);
   }
 }

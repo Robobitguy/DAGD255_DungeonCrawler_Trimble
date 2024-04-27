@@ -1,5 +1,11 @@
 //this program plays a dungeon crawler game
 //copyright Aiden Trimble 2024
+//TUTORIAL
+//W - move forward
+//S - move backwards
+//A/D - turn left/right
+//CURSOR - aim
+//LEFT MOUSE - shoot
 float dt = 0;
 float prevTime = 0;
 float zoomAmount = 1;

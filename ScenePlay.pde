@@ -10,6 +10,7 @@ class ScenePlay {
   float enemyCD = 1;
   float shotCD = 1;
   float IFrames = 0;
+  float pierceCD = 0;
   int Level = 1;
   ScenePlay() {
     player = new Player(width/2, height/2);
@@ -26,6 +27,7 @@ class ScenePlay {
     enemyCD -= dt;
     shotCD -= dt;
     IFrames -= dt;
+    pierceCD -= dt;
     if (enemyCD <= 0) {
       Enemy e = new Enemy();
       enemies.add(e);
@@ -56,9 +58,10 @@ class ScenePlay {
       Bullet b = bullets.get(i);
       b.update();
       for (int j = 0; j < enemies.size(); j++) {
-        if (b.checkCollision(enemies.get(j))) {
+        if (b.checkCollision(enemies.get(j)) && pierceCD <=0) {
           bullets.get(i).hitNumber++;
           enemies.get(j).enemyHealth -= player.playerDamage;
+          pierceCD = 0.05;
         }
       }
       if (b.isDead) bullets.remove(b);
