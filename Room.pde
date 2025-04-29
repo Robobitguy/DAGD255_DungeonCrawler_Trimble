@@ -3,7 +3,7 @@ class Room {
   float roomRandomize = 1;
   float x, y; //room dimensions
   final float w = 1500, h = 4000; //room dimensions
-  float wallThickness = 50;
+  float wallThickness = 100;
   boolean topDoor, bottomDoor;
   float platformWidth = w - w/2;
   float platformHeight = h - h/2;

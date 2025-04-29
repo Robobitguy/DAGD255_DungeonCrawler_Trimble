@@ -20,8 +20,8 @@ class Enemy extends AABB {
     rect(x - halfW, y - halfH, w, h);
   }
   void calcAngleToPlayer() {
-    float dx = scenePlay.player.x -x;
-    float dy = scenePlay.player.y - y;
+    float dx = playerPositionX -x;
+    float dy = playerPositionY - y;
     angleToPlayer = atan2(dy, dx);
   }
   void randomizePosition() {
@@ -29,12 +29,12 @@ class Enemy extends AABB {
     int spawnSide = ceil(randomSide);
     switch(spawnSide){
       case 1: //LEFT
-      x = scenePlay.player.x - 700;
+      x = playerPositionX - 700;
       break;
       case 2: //RIGHT
-      x = scenePlay.player.x + 700;
+      x = playerPositionX + 700;
       break;
     }
-    y = random(scenePlay.player.y - 500, scenePlay.player.y + 500);
+    y = random(playerPositionY - 500, playerPositionY + 500);
   }
 }

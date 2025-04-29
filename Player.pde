@@ -6,6 +6,8 @@ class Player extends AABB {
   float currentHealth = maxHealth;
   float currentXP = 0;
   float neededXP = 5;
+  float textTimer = 0;
+  int buffType;
   PVector midPoint = new PVector();
   Player(float xPos, float yPos) {
     x = xPos;
@@ -13,6 +15,7 @@ class Player extends AABB {
     setSize(100, 75);
   }
   void update() {
+    textTimer -= dt;
     calcAngleToMouse();
     if (Keyboard.isDown(Keyboard.LEFT)) {
       playerAngle -= 2 * dt;
@@ -37,16 +40,16 @@ class Player extends AABB {
     y += velocity.y * sin(playerAngle) * dt;
     velocity.x *= 0.95;
     velocity.y *= 0.95;
-    if (currentXP >= neededXP){
+    if (currentXP >= neededXP) {
       levelUp();
     }
-    if (currentHealth <= 0){
+    if (currentHealth <= 0) {
       isDead = true;
     }
     super.update();
   }
   void draw() {
-    fill(0,255,0);
+    fill(0, 255, 0);
     pushMatrix();
     translate(x, y);
     rotate(playerAngle);
@@ -57,23 +60,43 @@ class Player extends AABB {
     rotate(angle);
     rect(-halfW/2, -halfH/1.5, w/2, h/1.5);
     popMatrix();
+    fill(255);
+    textAlign(CENTER, CENTER);
+    if (textTimer > 0) {
+      switch(buffType) {
+      case 1:
+        text("HEALTH UP!", x, y - 75);
+        break;
+      case 2:
+        text("DAMAGE UP!", x, y - 75);
+        break;
+      case 3:
+        text("PIERCE UP!", x, y - 75);
+        break;
+      }
+    }
   }
-  void takeDamage(){
+  void takeDamage() {
     currentHealth -= floor(scenePlay.Level * 1.5);
+    hurt.play();
     scenePlay.IFrames = 0.5;
   }
-  void levelUp(){
+  void levelUp() {
     scenePlay.Level++;
-    float randomBuff = random(0,3);
-    int buffType = ceil(randomBuff);
-    switch(buffType){
-      case 1: //HEALTH UP
+    yippee.rate(1.1);
+    yippee.amp(0.5);
+    yippee.play();
+    float randomBuff = random(0, 3);
+    buffType = ceil(randomBuff);
+    textTimer = 5;
+    switch(buffType) {
+    case 1: //HEALTH UP
       maxHealth += 10;
       break;
-      case 2: //DAMAGE UP
+    case 2: //DAMAGE UP
       playerDamage += 1;
       break;
-      case 3: //PIERCE UP
+    case 3: //PIERCE UP
       pierce++;
       break;
     }

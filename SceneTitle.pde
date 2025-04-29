@@ -11,7 +11,7 @@ class SceneTitle {
     fill(255);
     textSize(25);
     textAlign(CENTER, CENTER);
-    text("PLACEHOLDER NAME", width/2, height/2 - 30);
+    text("UNTITLED TANK GAME", width/2, height/2 - 30);
     textSize(20);
     text("press SPACE to play", width/2, height/2);
   }

@@ -4,6 +4,9 @@ class ScenePlay {
   ArrayList<Room> rooms = new ArrayList();
   ArrayList<Door> doors = new ArrayList();
   ArrayList<Enemy> enemies = new ArrayList();
+  ArrayList<BossEnemy> bossEnemies = new ArrayList();
+  ArrayList<Particle>particles = new ArrayList();
+  ArrayList<EnemyBullet> enemyBullets = new ArrayList();
   Player player;
   Camera camera;
   HUD hud;
@@ -11,16 +14,18 @@ class ScenePlay {
   float shotCD = 1;
   float IFrames = 0;
   float pierceCD = 0;
+  float roomCD = 0.1;
+  float bossCD = 20;
   int Level = 1;
   ScenePlay() {
     player = new Player(width/2, height/2);
     camera = new Camera(player);
     hud = new HUD();
-    if (scenePlay != null) {
-      Room r = new Room(-camera.x, -camera.y);
-      rooms.add(r);
-    }
+    BGM.rate(1.1);
+    BGM.amp(0.5);
+    BGM.loop();
   }
+
   void update() {
     scale(zoomAmount);
     //SPAWN OBJECTS
@@ -28,10 +33,21 @@ class ScenePlay {
     shotCD -= dt;
     IFrames -= dt;
     pierceCD -= dt;
+    roomCD -= dt;
+    bossCD -= dt;
     if (enemyCD <= 0) {
       Enemy e = new Enemy();
       enemies.add(e);
       enemyCD = 1;
+    }
+    if (bossCD <= 0) {
+      BossEnemy be = new BossEnemy();
+      bossEnemies.add(be);
+      bossCD = 20;
+    }
+    if (rooms.size() <= 1 && roomCD <= 0) {
+      Room r = new Room(-camera.x, -camera.y);
+      rooms.add(r);
     }
     //UPDATE OBJECTS
     camera.update();
@@ -42,15 +58,27 @@ class ScenePlay {
         player.applyFix(player.findOverlapFix(p));
       }
     }
+    //ENEMIES UPDATE
     for (int i = 0; i < enemies.size(); i++) {
       Enemy e = enemies.get(i);
       e.update();
-      if(e.checkCollision(player) && IFrames <= 0){
+      if (e.checkCollision(player) && IFrames <= 0) {
         player.takeDamage();
       }
       if (e.isDead) {
         enemies.remove(e);
         player.currentXP += 1;
+      }
+    }
+    for (int i = 0; i < bossEnemies.size(); i++) {
+      BossEnemy be = bossEnemies.get(i);
+      be.update();
+      if (be.checkCollision(player) && IFrames <= 0) {
+        player.takeDamage();
+      }
+      if (be.isDead) {
+        bossEnemies.remove(be);
+        player.currentXP += 5;
       }
     }
     //BULLET UPDATE
@@ -59,12 +87,36 @@ class ScenePlay {
       b.update();
       for (int j = 0; j < enemies.size(); j++) {
         if (b.checkCollision(enemies.get(j)) && pierceCD <=0) {
+          hitSound.amp(100);
+          hitSound.play();
           bullets.get(i).hitNumber++;
           enemies.get(j).enemyHealth -= player.playerDamage;
           pierceCD = 0.05;
         }
       }
+      for (int j = 0; j < bossEnemies.size(); j++) {
+        if (b.checkCollision(bossEnemies.get(j)) && pierceCD <=0) {
+          hitSound.amp(100);
+          hitSound.play();
+          bullets.get(i).hitNumber++;
+          bossEnemies.get(j).bossHealth -= player.playerDamage;
+          pierceCD = 0.05;
+        }
+      }
       if (b.isDead) bullets.remove(b);
+    }
+    for (int i = 0; i < enemyBullets.size(); i++) {
+      EnemyBullet eb = enemyBullets.get(i);
+      eb.update();
+      if (eb.checkCollision(player) && IFrames <= 0) {
+        player.takeDamage();
+      }
+      if (eb.isDead) enemyBullets.remove(eb);
+    }
+    for (int i = 0; i < particles.size(); i++) {
+      Particle p = particles.get(i);
+      p.update();
+      if (p.isDead) particles.remove(p);
     }
     for (int i = 0; i < rooms.size(); i++) {
       Room r = rooms.get(i);
@@ -82,7 +134,8 @@ class ScenePlay {
     pRightPressed = rightPressed;
     shotCD -= dt;
     //GAME OVER
-    if (player.isDead == true){
+    if (player.isDead == true) {
+      BGM.stop();
       scene = 2;
     }
   }
@@ -96,6 +149,10 @@ class ScenePlay {
       Enemy e = enemies.get(i);
       e.draw();
     }
+    for (int i = 0; i < bossEnemies.size(); i++) {
+      BossEnemy be = bossEnemies.get(i);
+      be.draw();
+    }
     for (int i = 0; i < platforms.size(); i++) {
       Platform p = platforms.get(i);
       p.draw();
@@ -104,10 +161,18 @@ class ScenePlay {
       Bullet b = bullets.get(i);
       b.draw();
     }
-    for (int i = 0; i < doors.size(); i++) {
-      Door d = doors.get(i);
-      d.draw();
+    for (int i = 0; i < enemyBullets.size(); i++) {
+      EnemyBullet eb = enemyBullets.get(i);
+      eb.draw();
     }
+    for (int i = 0; i < particles.size(); i++) {
+      Particle p = particles.get(i);
+      p.draw();
+    }
+    /*for (int i = 0; i < doors.size(); i++) {
+     Door d = doors.get(i);
+     d.draw();
+     }*/
     player.draw();
     //POPMATRIX--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     popMatrix();

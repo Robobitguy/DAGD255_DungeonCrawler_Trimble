@@ -21,7 +21,7 @@ class Platform extends AABB {
   }
   
   void draw() {
-    fill(0);
+    fill(77,44,0);
     rect(x-halfW, y-halfH, w, h);
   }
   

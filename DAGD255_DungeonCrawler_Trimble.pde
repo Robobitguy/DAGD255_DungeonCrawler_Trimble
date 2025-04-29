@@ -1,23 +1,38 @@
-//this program plays a dungeon crawler game
+//UNTITLED TANK GAME
 //copyright Aiden Trimble 2024
+//MUSIC USED - Thousand March - Pizza Tower
+//Sound effects belong to their respective owners
 //TUTORIAL
 //W - move forward
 //S - move backwards
 //A/D - turn left/right
 //CURSOR - aim
 //LEFT MOUSE - shoot
+import processing.sound.*;
 float dt = 0;
 float prevTime = 0;
 float zoomAmount = 1;
 boolean leftPressed, pLeftPressed;
 boolean rightPressed, pRightPressed;
 int scene = 0;
+float playerPositionX;
+float playerPositionY;
 SceneTitle sceneTitle;
 ScenePlay scenePlay;
 SceneGameOver sceneGameOver;
+SoundFile gameOver;
+SoundFile hitSound;
+SoundFile yippee;
+SoundFile BGM;
+SoundFile hurt;
 
 void setup() {
   size(1280, 720);
+  gameOver = new SoundFile(this,"GameOverYeah.mp3");
+  hitSound = new SoundFile(this,"Hitmarker.mp3");
+  yippee = new SoundFile(this,"Yippee.mp3");
+  BGM = new SoundFile(this,"ThousandMarch.mp3");
+  hurt = new SoundFile(this,"Hurt.wav");
 }
 void draw() {
   calcDeltaTime();
@@ -34,6 +49,8 @@ void draw() {
     sceneTitle = null;
     sceneGameOver = null;
     scenePlay.update();
+    playerPositionX = scenePlay.player.x;
+    playerPositionY = scenePlay.player.y;
     if (scenePlay != null)scenePlay.draw();
     break;
   case 2: //GAME OVER

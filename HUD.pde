@@ -29,6 +29,8 @@ class HUD {
     fill(0);   
     text("LEVEL " + scenePlay.Level,640,40);
     //PLAYER INFO
-     
+    textAlign(LEFT,CENTER);
+    text("DAMAGE: " + scenePlay.player.playerDamage,25,200);
+    text("PIERCE: " + scenePlay.player.pierce,25,250);
   }
 }
